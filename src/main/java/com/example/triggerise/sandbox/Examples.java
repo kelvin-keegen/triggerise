@@ -1,7 +1,7 @@
 package com.example.triggerise.sandbox;
 
 import com.example.triggerise.service.Checkout;
-import com.example.triggerise.service.PricingRules;
+import com.example.triggerise.entity.PricingRules;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;

@@ -2,8 +2,6 @@ package com.example.triggerise.config;
 
 import com.example.triggerise.entity.Index;
 import com.example.triggerise.repository.IndexRepository;
-import com.example.triggerise.service.Checkout;
-import com.example.triggerise.service.PricingRules;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

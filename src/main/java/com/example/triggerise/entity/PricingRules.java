@@ -1,4 +1,4 @@
-package com.example.triggerise.service;
+package com.example.triggerise.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

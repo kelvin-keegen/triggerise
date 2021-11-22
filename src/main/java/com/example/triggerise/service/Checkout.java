@@ -1,6 +1,7 @@
 package com.example.triggerise.service;
 
 import com.example.triggerise.entity.Index;
+import com.example.triggerise.entity.PricingRules;
 import com.example.triggerise.repository.IndexRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
