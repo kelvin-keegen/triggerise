@@ -3,6 +3,7 @@ package com.example.triggerise.config;
 import com.example.triggerise.entity.Index;
 import com.example.triggerise.repository.IndexRepository;
 import com.example.triggerise.service.Checkout;
+import com.example.triggerise.service.PricingRules;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -42,22 +43,6 @@ public class DatabasePopulate {
             );
 
             repository.saveAll(List.of(mug,tshirt,usbkey));
-
-        };
-    }
-
-    @Bean
-    CommandLineRunner lineRunner (Checkout checkout) {
-
-        return args -> {
-
-            checkout.showAll();
-            checkout.Scan("MUG");
-            checkout.Scan("MUG");
-            checkout.Scan("TSHIRT");
-            checkout.Scan("USBKEY");
-            checkout.ItemsOnCart();
-            checkout.total();
 
         };
     }

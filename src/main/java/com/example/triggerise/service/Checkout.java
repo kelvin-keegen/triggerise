@@ -5,7 +5,6 @@ import com.example.triggerise.repository.IndexRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.swing.plaf.IconUIResource;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -14,6 +13,7 @@ import java.util.*;
 public class Checkout {
 
     private final IndexRepository indexRepository;
+    private final Calculate calculate;
 
     private static ArrayList<BigDecimal> cart = new ArrayList<>();
 
@@ -38,35 +38,57 @@ public class Checkout {
     }
 
     public ArrayList<BigDecimal> ItemsOnCart() {
+        int size_of_items = 0;
 
-        System.out.println("Items on cart as scanned: "+cart);
         Collections.sort(cart);
-        System.out.println("Items on cart after sorting: "+cart);
+        System.out.println("Items on cart: "+(size_of_items = cart.size()));
         return cart;
     }
 
-    public BigDecimal total(){
+    public BigDecimal total(PricingRules pricingRules){
 
-        int size_of_items = 0;
-        BigDecimal sum = BigDecimal.ZERO;
+        // check for null values
+
+        if (pricingRules.getPriceOnPromo() != null && pricingRules.getPriceToDiscount() != null && pricingRules.getDiscountRate() != null){
 
 
-        size_of_items = cart.size();
+            if (pricingRules.isPromoOn() && !pricingRules.isDiscountOn()) {
 
-        System.out.println("size_of_items: "+size_of_items);
+                // Calculate 2 for 1 promotion
 
-        // Add items in cart
+               return calculate.TwoforOneDiscount(cart, new BigDecimal(pricingRules.getPriceOnPromo()));
 
-        for(int i = 0; i < size_of_items; i++) {
+            } else if (pricingRules.isDiscountOn() && !pricingRules.isPromoOn()) {
 
-            sum = sum.add(cart.get(i));
 
+                // Calculate fixed discount
+
+                return calculate.FixedDiscount(cart, new BigDecimal(pricingRules.getDiscountRate()),
+                        new BigDecimal(pricingRules.getPriceToDiscount()), pricingRules.getDiscountOnThreshold());
+
+            } else if (pricingRules.isPromoOn() && pricingRules.isDiscountOn()) {
+
+
+
+                return calculate.DiscountedPromotionTotal(cart,new BigDecimal(pricingRules.getPriceToDiscount()),
+                        new BigDecimal(pricingRules.getDiscountRate()),pricingRules.getDiscountOnThreshold(),
+                        new BigDecimal(pricingRules.getPriceOnPromo()));
+
+            }
+            else {
+
+                // Calculate total without discount
+
+               return calculate.UndiscountedTotal(cart);
+            }
         }
 
-        System.out.println(sum);
+        throw new IllegalArgumentException("Items have not been initialized for processing");
 
-        return sum;
     }
 
-
+    public void clear() {
+        // clear cart
+        cart.clear();
+    }
 }
